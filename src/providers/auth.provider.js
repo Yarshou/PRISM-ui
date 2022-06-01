@@ -15,12 +15,9 @@ let initialState = {
 
 export const AuthContext = createContext({
     user: null,
-    login: (data) => {
-    },
-    logout: () => {
-    },
-    reloadUser: async () => {
-    },
+    login: (data) => {},
+    logout: () => {},
+    reloadUser: async () => {},
 });
 
 export function useAuthContext() {
@@ -63,7 +60,7 @@ export function AuthProvider(props) {
             } else {
                 if (!state.user) {
                     isGuest = false;
-                    reloadUser();
+                    reloadUser().then(r => null);
                 }
             }
         }
@@ -71,12 +68,14 @@ export function AuthProvider(props) {
         if (isGuest) {
             dispatch({type: LOGIN_SUCCESS, payload: null});
         }
+        // eslint-disable-next-line
     }, []);
 
     async function reloadUser() {
         dispatch({type: LOGIN_FETCHING})
-        const {data: res} = await api.get('/api/user');
-        login(res.data);
+        const {data: res} = await api.get('/user/');
+        console.log('DATA IS', res)
+        login(res);
     }
 
     function login(userData) {
