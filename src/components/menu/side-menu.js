@@ -141,7 +141,7 @@ const SideMenu = () => {
                                     </MenuItem>
                                 </MenuItemWrapper>
                             )}
-                            <MenuItemWrapper title="Home" to='/'>
+                            <MenuItemWrapper title="Home" to='main'>
                                 <MenuItem icon={<FiHome/>}>
                                     Home
                                 </MenuItem>
@@ -159,22 +159,6 @@ const SideMenu = () => {
             </StyledSideMenu>
         </>
     );
-    // return (
-    //     <StyledSideMenu>
-    //         <div className="menu-items">
-    //             <MenuItem to="profile/" title="profile">
-    //                 <img className="avatar" src={`${userAvatar}`} alt="1"/>
-    //             </MenuItem>
-    //             <div className="brand">{user.username}</div>
-    //             <MenuItem to="album/" title="album">
-    //                 <i className="icon-group"/>
-    //             </MenuItem>
-    //             <MenuItem onClick={logoutHandler} title="Log out">
-    //                 <i className="icon-arrow-right-from-bracket"/>
-    //             </MenuItem>
-    //         </div>
-    //     </StyledSideMenu>
-    // );
 };
 
 export default SideMenu;

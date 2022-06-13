@@ -57,7 +57,7 @@ const HomePage = () => {
                 <p>This platform allows you to view your photos from events and automatically adds photos of where you are in the album.</p>
                 <div className="auth-section">
                     {user && user.token ? (
-                        <Link to="/me">Dashboard</Link>
+                        <Link to="/me/main">Dashboard</Link>
                     ) : (
                         <Link to="/auth">Authentication</Link>
                     )}

@@ -49,7 +49,7 @@ const Login = () => {
                 setToken(res.token);
                 await auth.reloadUser();
 
-                navigate(searchParams.get('next') || '/me');
+                navigate(searchParams.get('next') || '/me/main/');
                 console.log("AFTER LOGIN NAVIGATE");
             }
             navigate('/me')

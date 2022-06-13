@@ -6,6 +6,7 @@ import {useAuthContext} from "../../providers/auth.provider";
 import {Accordion, AccordionDetails, AccordionSummary} from "@mui/material";
 import Typography from "@mui/material/Typography";
 import {MdExpandMore} from "react-icons/md";
+import {useLocation} from "react-router-dom";
 
 
 const StyledProfileHeader = styled.div`
@@ -56,13 +57,26 @@ const StyledProfileHeader = styled.div`
 
 function ProfileHeader() {
 
-    const {user} = useAuthContext();
+    const location = useLocation();
+    let user_id = location.pathname.split('/').pop();
+    console.log("INT VALUE", parseInt(user_id));
+    let [user, setUser] = useState(useAuthContext());
 
     const [userAvatar, setUserAvatar] = useState('avatar');
 
     useEffect(() => {
+        if (isNaN(user_id)) {
+            user_id = "";
+            const fetchData = async () => {
+                const {data: res} = await api.get('dashboard/avatar/' + user_id);
+                setUserAvatar('http://localhost:8000' + res.images[0]);
+            }
+            fetchData().catch(console.error);
+        }
         const fetchData = async () => {
-            const {data: res} = await api.get('dashboard/avatar/');
+            const {data: res} = await api.get('dashboard/avatar/' + user_id);
+            const {data: result} = await api.get('user/' + user_id);
+            setUser(result);
             setUserAvatar('http://localhost:8000' + res.images[0]);
         }
         fetchData().catch(console.error);
@@ -102,7 +116,7 @@ function ProfileHeader() {
                             </Typography>
                         </AccordionDetails>
                     </Accordion>
-                                        <Accordion expanded={expanded === 'panel3'} onChange={handleChange('panel3')}>
+                    <Accordion expanded={expanded === 'panel3'} onChange={handleChange('panel3')}>
                         <AccordionSummary
                             expandIcon={<MdExpandMore/>}
                             aria-controls="panel3bh-content"

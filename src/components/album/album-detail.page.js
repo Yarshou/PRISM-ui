@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import styled from 'styled-components'
-import {useLocation} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import api from "../../utils/api";
 import CssBaseline from "@mui/material/CssBaseline";
 import AppBar from "@mui/material/AppBar";
@@ -39,10 +39,38 @@ const StyledAlbumDetailPage = styled.div`
     border-color: #ebebeb;
     box-shadow: 0 0 16px gainsboro;
     .MuiBox-root {
-        background-color: #efefef;
-        // border: solid; 
-        // border-width: 1px;
-        // border-color: #ebebeb;    
+        background-color: #efefef;  
+    }
+    .MuiCardContent-root {
+        display: grid !important;
+    }
+    .MuiAvatar-root {
+        margin-left: auto;
+        margin-right: auto;
+        display: inline;
+    }
+    .card-hover:hover {
+        border: solid;
+        border-width: 0px;
+        border-color: #ebebeb;
+        box-shadow: 2px 2px 16px #2e2c2c;
+        overflow: visible;
+    }
+    h1.card-header {
+        margin-left: auto;
+        margin-right: auto;
+        font-weight: 100;
+        font-size: 15px;
+    }
+    .glow {
+        transition: 0s box-shadow;
+    }
+    .glow:hover {
+        box-shadow:
+        0 0 2px 1px #fff,  /* inner white */
+        0 0 3px 2px #fece00,  /* inner white */
+        0 0 9px 3px #ffe172; /* outer cyan */
+        transition: box-shadow 0.3s ease-in-out 0s;
     }
 `
 
@@ -51,6 +79,8 @@ export default function AlbumDetailPage() {
 
     const location = useLocation();
     const event = location.pathname.split('/').pop();
+
+    const navigate = useNavigate();
 
     const [eventPhotos, setEventPhotos] = useState([]);
     const [userAvatar, setUserAvatar] = useState({});
@@ -84,7 +114,7 @@ export default function AlbumDetailPage() {
         let ph_list = [];
         const {data: res} = await api.get(`dashboard/event/${event}`);
         res.map((ph) => {
-            ph_list.push({'img': `http://localhost:8000${ph.img}`, 'users': ph.users})
+            ph_list.push({'id': ph.id, 'img': `http://localhost:8000${ph.img}`, 'users': ph.users})
         })
         setEventPhotos(ph_list);
     }
@@ -155,15 +185,16 @@ export default function AlbumDetailPage() {
                                         component="img"
                                         image={photo.img}
                                         alt="random"
+                                        className="card-hover"
+                                        onClick={() => {navigate('/me/album/photo/' + photo.id)}}
                                     />
                                     <CardContent sx={{flexGrow: 1}}>
+                                        <h1 className="card-header">Recognized users</h1>
                                         <Typography gutterBottom variant="h5" component="h2">
-                                            users<br/>
-                                            <Stack direction="row" spacing={2}>
+                                            <Stack direction="row" spacing={2} >
                                                 {photo.users.map((id) => {
                                                     return (
-                                                        <Avatar key={id} alt="avatar" src={userAvatar[id]}/>
-                                                        // id
+                                                        <Avatar className="glow" key={id} alt="avatar" src={userAvatar[id]} onClick={() => {navigate('/me/profile/'+id)}}/>
                                                     )
                                                 })}
                                             </Stack>

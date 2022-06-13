@@ -24,7 +24,7 @@ function App() {
         <StyledApp>
             <SideMenu />
             <div className="outlet">
-                <Outlet />
+                <Outlet/>
             </div>
         </StyledApp>
     );

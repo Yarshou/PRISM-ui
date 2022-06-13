@@ -13,6 +13,8 @@ import UserProfilePage from "./components/user-profile/user-profile.page";
 import AlbumPage from "./components/album/album.page";
 import UploaderPage from "./components/uploader/uploader.page";
 import AlbumDetailPage from "./components/album/album-detail.page";
+import PhotoPage from "./components/album/photo-detail.page";
+import MainPage from "./components/menu/main.page";
 
 
 ReactDOM.render(
@@ -27,22 +29,16 @@ ReactDOM.render(
                     <Route path="/me" element={<MemberRoute/>}>
                         <Route path="/me" element={<App/>}>
                             <Route index element={<DashboardPage/>}/>
-                            <Route exact path="profile" element={<UserProfilePage />} />
+                            <Route exact path="main" element={<MainPage/>}/>
+                            <Route exact path="profile" element={<UserProfilePage />}>
+                                <Route path=":user_id" element={<UserProfilePage/>}/>
+                            </Route>
                             <Route exact path="album" element={<Outlet />}>
                                 <Route index element={<AlbumPage/>}/>
-                                <Route path=":event_name" element={<AlbumDetailPage/>} />
+                                <Route path=":event_name" element={<AlbumDetailPage/>}/>
+                                <Route path="photo/:id" element={<PhotoPage/>}/>
                             </Route>
                             <Route exact path="uploader" element={<UploaderPage />} />
-                            {/*<Route exact path="profile" element={<UserProfilePage/>}/>*/}
-                            {/*<Route exact path="groups" element={<Outlet/>}>*/}
-                            {/*    <Route index element={<GroupsPage/>}/>*/}
-                            {/*    <Route path=":groupId/slices" element={<SlicesPage/>}/>*/}
-                            {/*    <Route exact path="confirm-invitation/:token" element={<ConfirmInvitationPage/>}/>*/}
-                            {/*</Route>*/}
-                            {/*<Route path="slices" element={<GroupSelectPage/>}/>*/}
-                            {/*<Route path="trainings" element={<Outlet/>}>*/}
-                            {/*    <Route path=":id" element={<TrainingPage/>}/>*/}
-                            {/*</Route>*/}
                         </Route>
                     </Route>
                 </Routes>
